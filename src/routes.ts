@@ -9,15 +9,21 @@ mongoose.connect('mongodb+srv://patrickamaralr1:123456788@cluster0.ikokrra.mongo
 export const Router = () => {
 
     mongoose.set('strictQuery', true)
-    
+
     app.get('/users', (req: Request, res: Response) => {
         const userRepository = UserModel.find();
         res.send(userRepository)
     })
 
-    app.post('/users', (req: Request, res: Response) => {
+    app.post('/users', async (req: Request, res: Response) => {
         const userRepository = UserModel;
-        userRepository.create({name: "Patrick", email: "patricao@hotmail.com", password: "senha123"})
+        const name: string = req.body.name
+        const email: string = req.body.email
+        const password: string = req.body.password
+
+
+        await userRepository.create({name, email, password})
         res.send("Usuário criado com sucesso!")
     })
+
 }
